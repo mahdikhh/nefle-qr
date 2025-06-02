@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nefle</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: #1e1e1e;
+      color: #f0f0f0;
+      font-family: 'Tahoma', sans-serif;
+    }
+    .quote-container {
+      background: #2e2e2e;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      max-width: 600px;
+      text-align: center;
+    }
+    .quote-text {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .quote-author {
+      font-size: 1.2rem;
+      color: #cccccc;
+      margin-bottom: 1.5rem;
+    }
+    .refresh-btn {
+      background: #007acc;
+      color: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+    }
+    .refresh-btn:hover {
+      background: #005a9e;
+    }
+  </style>
+</head>
+<body>
+  <div class="quote-container">
+    <div id="quote-text" class="quote-text">در حال بارگذاری...</div>
+    <div id="quote-author" class="quote-author"></div>
+    <button class="refresh-btn" onclick="fetchQuote()">nefle جدید</button>
+  </div>
+
+  <script>
+    async function fetchQuote() {
+      try {
+        const response = await fetch('https://programming-quotesapi.vercel.app/api/random');
+        const data = await response.json();
+        document.getElementById('quote-text').innerText = `"${data.en}"`;
+        document.getElementById('quote-author').innerText = `— ${data.author}`;
+      } catch (error) {
+        document.getElementById('quote-text').innerText = 'مشکلی رخ داد. لطفاً دوباره امتحان کنید.';
+        document.getElementById('quote-author').innerText = '';
+        console.error('Error fetching quote:', error);
+      }
+    }
+
+    // Fetch a quote when the page loads
+    window.onload = fetchQuote;
+  </script>
+</body>
+</html>
